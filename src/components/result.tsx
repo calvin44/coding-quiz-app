@@ -1,7 +1,8 @@
-import { Alert, Box, Button, Snackbar, TextField, Typography } from '@mui/material'
+import { Box, Button, Snackbar, TextField, Typography } from '@mui/material'
 import { ContentContainer } from './contentContainer'
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react'
 import { useSnackbar } from '../customHook/useSnackbar'
+import { CustomAlert } from './question'
 
 interface ResultProps {
   quizResult: QuizResultRecord
@@ -55,7 +56,7 @@ export const Result: React.FC<ResultProps> = ({ updateHighscoreRecord, clearQuiz
         <Button color="success" type="submit" variant="contained">Submit</Button>
       </Box>
       <Snackbar open={showWarning} onClose={closeSnackbar}>
-        <Alert onClose={closeSnackbar} severity="error">Duplicate initials!</Alert>
+        <CustomAlert onClose={closeSnackbar} severity="error">Duplicate initials!</CustomAlert>
       </Snackbar>
     </ContentContainer>
   )

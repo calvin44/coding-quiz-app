@@ -1,6 +1,6 @@
-import { Alert, Box, Button, Snackbar, Typography, styled } from '@mui/material'
+import { Alert, AlertProps, Box, Button, Snackbar, Typography, styled } from '@mui/material'
 import { questions } from '../data'
-import { useCallback, useMemo, useState } from 'react'
+import { forwardRef, useCallback, useMemo, useState } from 'react'
 import { ContentContainer } from './contentContainer'
 
 interface QuestionProps {
@@ -21,10 +21,10 @@ export const Question: React.FC<QuestionProps> = ({ updateQuizResult, quizResult
   }, [])
 
   const handleOpenSnackbar = useCallback(() => {
-    setShowSnackbar(true)
+    setShowSnackbar(false)
     setTimeout(() => {
-      setShowSnackbar(false)
-    }, 1000)
+      setShowSnackbar(true)
+    }, 500)
   }, [])
 
   const setAnswer = useCallback((option: string) => {
@@ -60,12 +60,16 @@ export const Question: React.FC<QuestionProps> = ({ updateQuizResult, quizResult
           ))
         }
       </Box>
-      <Snackbar open={showSnackbar} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity={answerResult ? "success" : "error"}>{answerResult ? "Correct" : "Incorrect"}</Alert>
+      <Snackbar open={showSnackbar} onClose={handleCloseSnackbar} autoHideDuration={1000}>
+        <CustomAlert onClose={handleCloseSnackbar} severity={answerResult ? "success" : "error"}>{answerResult ? "Correct" : "Incorrect"}</CustomAlert>
       </Snackbar>
     </ContentContainer>
   )
 }
+
+export const CustomAlert = forwardRef<HTMLDivElement, AlertProps>(function CustomAlert(props, ref) {
+  return <Alert elevation={6} ref={ref} variant="filled" {...props} />
+})
 
 const Choice = styled(Button)({
   backgroundColor: "#218380",
